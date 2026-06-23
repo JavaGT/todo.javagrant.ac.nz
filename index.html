@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo — Grant</title>
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --ink: #2b2a27;
+    --muted: #6b6862;
+    --rule: #e3ddd0;
+    --accent: #7a6f5d;
+    --done: #9a958c;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+    padding: 2.5rem 1.2rem 6rem;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { margin-bottom: 2.5rem; }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.9rem;
+    margin: 0 0 0.3rem;
+    letter-spacing: 0.01em;
+  }
+  header p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+  section { margin-bottom: 2.4rem; }
+  h2 {
+    font-family: Georgia, serif;
+    font-weight: 400;
+    font-size: 1.15rem;
+    color: var(--accent);
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--rule);
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+  }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li {
+    padding: 0.5rem 0 0.5rem 1.7rem;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  li:last-child { border-bottom: none; }
+  li::before {
+    content: "";
+    position: absolute;
+    left: 0.1rem;
+    top: 0.85rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 1.2px solid var(--accent);
+    border-radius: 2px;
+    background: transparent;
+  }
+  .note {
+    display: block;
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 0.25rem;
+    font-style: italic;
+  }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  footer { margin-top: 3rem; color: var(--muted); font-size: 0.82rem; }
+  @media print {
+    body { background: #fff; padding: 1.5rem; }
+    li { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>todo</h1>
+    <p>A simple, quiet list. Last updated 23 June 2026.</p>
+  </header>
+
+  <section>
+    <h2>house &amp; renovation</h2>
+    <ul>
+      <li>Patch holes and walls</li>
+      <li>Build high wall shelves</li>
+      <li>Change backsplash tiling</li>
+      <li>Find a new centre light for the living room</li>
+      <li>Get larger recycling bins</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>furniture &amp; appliances</h2>
+    <ul>
+      <li>Buy a standing freezer</li>
+      <li>Sell the old chest freezer</li>
+      <li>Get a desk for the living room</li>
+      <li>Find a new dining table</li>
+      <li>Sand and stain the dining table</li>
+      <li>Build a frame for the Lego art</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>projects to build</h2>
+    <ul>
+      <li>Podcast app
+        <span class="note">Import listening progress + followed shows from Spotify. Automatic transcription. Detect &amp; skip ad sections.</span>
+        <span class="note">Related work on ad detection/skip: <a href="https://github.com/skorotkiewicz/PodcastAdSkipper">PodcastAdSkipper</a>, <a href="https://github.com/SwanandM/Podcast-Ad-Detector">Podcast-Ad-Detector</a>, <a href="https://github.com/microsoft/audiocraft">AudioCraft</a> (audio models for segmentation), and the <a href="https://github.com/pyannote/pyannote-audio">pyannote-audio</a> speaker-segmentation toolkit (common basis for ad-break detection).</span>
+      </li>
+      <li>Train a Whisper model on my own dictation for a Mac hotkey typing tool
+        <span class="note">Likely a LoRA adapter on a Whisper base, fine-tuned on personal voice samples.</span>
+      </li>
+      <li>Live online interface to the PhD thesis vault
+        <span class="note">Obsidian-like but calmer. An opencode-style adapter to talk to an AI model over the vault. Must be well-saved and secure.</span>
+      </li>
+      <li>Room designer app in Three.js &amp; VR</li>
+      <li>Self-hosted library system</li>
+      <li>AI workflow to build a meal plan from supermarket specials</li>
+      <li>macOS toolbar API key tracker &amp; usage reset
+        <span class="note">Track multiple keys across LLM providers. Start with OpenCode and Pioneer AI. Handle unknown Pioneer per-key reset times by deriving them from moments when available credit increases (24h cycle).</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>research / scope (PhD)</h2>
+    <ul>
+      <li>Build a storage adapter for Scope &amp; Workbench that hooks up to university shared drives
+        <span class="note">So I'm not holding research data directly.</span>
+      </li>
+      <li>Investigate Turso as an alternative to SQLite for Scope
+        <span class="note">Turso supports vector search by default.</span>
+      </li>
+      <li>Write thesis methodology and method</li>
+      <li>Input existing writing into the PhD thesis vault</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>teaching &amp; university</h2>
+    <ul>
+      <li>Mark final assignments for COMMS 323</li>
+      <li>Give Bruce the plan for student day, SAANZ 2026</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>declutter &amp; sell</h2>
+    <ul>
+      <li>Sell some board games</li>
+      <li>Consolidate Catan into fewer boxes</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>life admin</h2>
+    <ul>
+      <li>Update the account the bank cards are connected to</li>
+      <li>Buy Taylor an electric drum kit</li>
+    </ul>
+  </section>
+
+  <footer>
+    Static page served via GitHub Pages. Edit <code>index.html</code> to update.
+  </footer>
+
+</div>
+</body>
+</html>
