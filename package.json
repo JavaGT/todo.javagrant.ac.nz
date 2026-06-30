@@ -1,0 +1,14 @@
+{
+  "name": "todo.javagrant.ac.nz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive todo list served from the Mac Mini via nginx + node:sqlite.",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,50 +1,58 @@
 # todo.javagrant.ac.nz
 
-A simple, non-interactive todo list served as a static site via GitHub Pages.
+An interactive todo list hosted on the Mac Mini. Categories and items are
+stored in SQLite and edited live in the browser; changes save automatically.
 
-## Structure
+## Stack
 
-- `index.html` — the entire site. One file, no build step, no JavaScript.
-- `.nojekyll` — tells GitHub Pages to serve the file as-is (skip Jekyll).
+- **Frontend** — `public/` (`index.html`, `app.js`, `style.css`). Vanilla JS, no build step.
+- **Backend** — `server.js`. A zero-dependency Node server using the built-in
+  `node:http` and `node:sqlite` modules (Node ≥ 22). Binds to `127.0.0.1:8090`.
+- **Database** — SQLite at `data/todo.db` (WAL mode). Seeded from `seed-data.js`
+  on first run with the original static list.
+- **Reverse proxy** — nginx terminates TLS (the `*.javagrant.ac.nz` wildcard
+  cert) and requires HTTP Basic auth against `vault.htpasswd`, the same
+  `javaisawesome` login used by the other private subdomains.
 
-## Deploy (GitHub Pages)
+## Layout
 
-1. Create a repo named `todo.javagrant.ac.nz` on GitHub (or push this folder to an existing one).
-2. Push these files to the `main` branch:
-   ```sh
-   git init
-   git add .
-   git commit -m "Simple static todo list"
-   git branch -M main
-   git remote add origin git@github.com:<you>/todo.javagrant.ac.nz.git
-   git push -u origin main
-   ```
-3. In the repo: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/root`.
-4. Wait a minute. The site will be live at `https://<you>.github.io/todo.javagrant.ac.nz/`.
+```
+server.js                # API + static serving (127.0.0.1:8090)
+seed-data.js             # first-run seed content
+public/index.html        # page shell
+public/app.js            # rendering + interactions
+public/style.css         # the calm aesthetic
+data/todo.db             # the database (gitignored)
+ai.acnz.todo.plist       # launchd unit (symlinked into ~/Library/LaunchAgents)
+```
 
-## Point the subdomain `todo.javagrant.ac.nz` at it
+## API
 
-Assuming `javagrant.ac.nz` is managed in Cloudflare (or your DNS provider):
+All mutating requests must send `X-Requested-With: fetch` (CSRF guard).
 
-1. Add a **CNAME** record:
-   - Name: `todo`
-   - Target: `<you>.github.io`
-   - Proxy: DNS-only (grey cloud) — or proxied if you want Cloudflare TLS.
-2. In the GitHub repo: **Settings → Pages → Custom domain**, enter `todo.javagrant.ac.nz`, and **Save**. Tick **Enforce HTTPS**.
-3. GitHub will issue a certificate and serve the site at `https://todo.javagrant.ac.nz`.
+- `GET    /api/todos`            — full snapshot `{ categories, todos }`
+- `POST   /api/todos`            — `{ category_id, text, note? }`
+- `PATCH  /api/todos/:id`        — `{ text?, note?, done?, category_id?, position? }`
+- `DELETE /api/todos/:id`
+- `POST   /api/categories`       — `{ name }`
+- `PATCH  /api/categories/:id`   — `{ name }`
+- `DELETE /api/categories/:id`   — 409 if the category is not empty
 
-For the `tools.javagrant.ac.nz` pattern you already run, mirror whatever DNS/CNAME setup that uses — just swap the subdomain to `todo`.
+## Operations
 
-## Updating the list
+Run locally for development:
+```sh
+npm start                 # default port 8090, db at data/todo.db
+TODO_PORT=8091 TODO_DB=/tmp/t.db npm start
+```
 
-Open `index.html`, edit the `<li>` items inside each `<section>`, commit, and push. The site updates on the next Pages build (≈30–60s).
+The production service is managed by launchd (`ai.acnz.todo`), kept alive
+automatically and started at login:
+```sh
+launchctl kickstart -k gui/$(id -u)/ai.acnz.todo   # restart
+tail -f /tmp/todo.log                                # logs
+```
 
-## Categories
-
-1. house & renovation
-2. furniture & appliances
-3. projects to build
-4. research / scope (PhD)
-5. teaching & university
-6. declutter & sell
-7. life admin
+nginx config lives at `/opt/homebrew/etc/nginx/servers/todo.javagrant.ac.nz.conf`.
+DNS for the subdomain is handled by the `*.javagrant.ac.nz` catchall A record
+(pointing at the Mac Mini).

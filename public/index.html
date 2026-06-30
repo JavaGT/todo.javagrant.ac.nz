@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo — Grant</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>todo</h1>
+    <p>A simple, quiet list.</p>
+  </header>
+
+  <main id="app"></main>
+
+  <div class="newcat addrow">
+    <input id="newcat-name" type="text" placeholder="new category…" maxlength="80" aria-label="new category name">
+    <button id="newcat-add" type="button">add category</button>
+  </div>
+
+  <footer>
+    Served fresh from the Mac Mini. Changes save automatically.
+  </footer>
+
+</div>
+<div id="flash" role="status" aria-live="polite"></div>
+<script src="/app.js"></script>
+</body>
+</html>

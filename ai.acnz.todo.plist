@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>ai.acnz.todo</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>/Users/server/Code/todo.javagrant.ac.nz/server.js</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>TODO_PORT</key>
+    <string>8090</string>
+    <key>TODO_DB</key>
+    <string>/Users/server/Code/todo.javagrant.ac.nz/data/todo.db</string>
+    <key>NODE_NO_WARNINGS</key>
+    <string>1</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/todo.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/todo.log</string>
+</dict>
+</plist>
